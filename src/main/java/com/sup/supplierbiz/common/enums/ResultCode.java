@@ -8,9 +8,12 @@ import lombok.Getter;
 public enum ResultCode {
     SUCCESS(200,"操作成功"),
     PARAM_ERROR(4001,"参数错误"),
+    STOCK_NOT_ENOUGH(4002,"库存不足"),
+    LOGIN_FAILED(4003,"用户名或密码错误"),
     NOT_FOUND(4004,"请求资源不存在"),
+    ACCOUNT_DISABLED(4005,"账号已停用"),
     SYSTEM_ERROR(5000, "系统内部错误"),
-    STOCK_NOT_ENOUGH(4002,"库存不足");
+    UNAUTHORIZED(401,"没有访问权限");
     private final Integer code;
     private final String message;
 
