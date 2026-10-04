@@ -8,9 +8,10 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/supplier_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
-    password: root
+    password: ${DB_PASSWORD:root}
 jwt:
-  secret: o1CLJawSmItp3GrFUyq0EJfdPDdL4--wcUbZ_fjwqFA
+  # 生产环境通过环境变量 JWT_SECRET 注入；此处为本地开发默认值，非生产密钥
+  secret: ${JWT_SECRET:dev-only-0123456789abcdef0123456789abcdef}
   expiration: 86400000
 # springdoc-openapi项目配置
 springdoc:
