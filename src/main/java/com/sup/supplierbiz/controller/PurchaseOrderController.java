@@ -2,16 +2,13 @@ package com.sup.supplierbiz.controller;
 
 import com.sup.supplierbiz.common.result.Result;
 import com.sup.supplierbiz.domain.dto.PurchaseOrderCreateDTO;
-import com.sup.supplierbiz.domain.po.PurchaseOrder;
+import com.sup.supplierbiz.domain.vo.PurchaseOrderDetailVO;
 import com.sup.supplierbiz.service.PurchaseOrderService;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/purchase-orders")
@@ -30,7 +27,7 @@ public class PurchaseOrderController {
     }
     @Operation(summary = "查询订单详情")
     @GetMapping("/{id}")
-    public Result<PurchaseOrder> findById(@PathVariable Long id){
-        return Result.success(purchaseOrderService.getById(id));
+    public Result<PurchaseOrderDetailVO> findById(@PathVariable Long id){
+        return Result.success(purchaseOrderService.getDetail(id));
     }
 }
