@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sup.supplierbiz.mapper.InventoryMapper">
+
+    <resultMap id="BaseResultMap" type="com.sup.supplierbiz.domain.po.Inventory">
+            <id property="id" column="id" />
+            <result property="materialId" column="material_id" />
+            <result property="warehouseId" column="warehouse_id" />
+            <result property="stockQuantity" column="stock_quantity" />
+            <result property="availableQuantity" column="available_quantity" />
+            <result property="frozenQuantity" column="frozen_quantity" />
+            <result property="version" column="version" />
+            <result property="deleted" column="deleted" />
+            <result property="createdAt" column="created_at" />
+            <result property="updatedAt" column="updated_at" />
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id,material_id,warehouse_id,stock_quantity,available_quantity,frozen_quantity,
+        version,deleted,created_at,updated_at
+    </sql>
+
+    <!-- 分页查询库存，联表带出物料名称和仓库名称 -->
+    <select id="selectPageVO" resultType="com.sup.supplierbiz.domain.vo.InventoryVO">
+        SELECT i.id, i.material_id, i.warehouse_id,
+               i.stock_quantity, i.available_quantity, i.frozen_quantity,
+               m.material_name, w.warehouse_name
+        FROM inventory i
+        LEFT JOIN materials m ON i.material_id = m.id
+        LEFT JOIN warehouse w ON i.warehouse_id = w.id
+        <where>
+            i.deleted = 0
+            <if test="materialName != null and materialName != ''">
+                AND m.material_name LIKE CONCAT('%', #{materialName}, '%')
+            </if>
+        </where>
+        ORDER BY i.id DESC
+    </select>
+</mapper>
