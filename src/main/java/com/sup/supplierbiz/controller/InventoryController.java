@@ -7,10 +7,11 @@ import com.sup.supplierbiz.domain.dto.StockChangeDTO;
 import com.sup.supplierbiz.domain.vo.InventoryVO;
 import com.sup.supplierbiz.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
-
+@Tag(name="库存管理模块")
 @RestController
 @RequestMapping("/api/inventory")
 @RequiredArgsConstructor

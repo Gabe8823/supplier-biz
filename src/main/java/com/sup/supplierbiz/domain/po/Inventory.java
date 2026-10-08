@@ -51,7 +51,11 @@ public class Inventory {
 
     /**
      * 乐观锁版本号
+     * <p>D4-4 超卖复现阶段刻意不使用 @Version，且不注册 OptimisticLockerInnerInterceptor，
+     * 保留 stockOut "先查后改"的非原子实现以复现丢失更新；
+     * 后续乐观锁修复阶段再将注解与拦截器一同加回。</p>
      */
+    @Version
     private Integer version;
 
     /**

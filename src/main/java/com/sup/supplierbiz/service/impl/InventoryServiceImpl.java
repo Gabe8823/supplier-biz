@@ -14,6 +14,7 @@ import com.sup.supplierbiz.service.InventoryService;
 import com.sup.supplierbiz.mapper.InventoryMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 
@@ -36,6 +37,7 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
         return PageDTO.of(page);
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public Long stockIn(StockChangeDTO dto) {
 
@@ -63,6 +65,7 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
         }
     }
 
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public void stockOut(StockChangeDTO dto) {
         if (dto.getQuantity() == null || dto.getQuantity().compareTo(BigDecimal.ZERO) <= 0) {
@@ -74,15 +77,12 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
         if (inventory == null) {
             throw new BusinessException(ResultCode.NOT_FOUND);
         }
-        if (inventory.getAvailableQuantity().compareTo(dto.getQuantity()) <= 0) {
+        if (inventory.getAvailableQuantity().compareTo(dto.getQuantity()) < 0) {
             throw new BusinessException(ResultCode.STOCK_NOT_ENOUGH);
         }
             inventory.setStockQuantity(inventory.getStockQuantity().subtract(dto.getQuantity()));
             inventory.setAvailableQuantity(inventory.getAvailableQuantity().subtract(dto.getQuantity()));
             updateById(inventory);
-
-
-
     }
 }
 

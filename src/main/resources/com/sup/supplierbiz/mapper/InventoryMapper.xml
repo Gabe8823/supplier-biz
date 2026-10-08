@@ -24,18 +24,30 @@
 
     <!-- 分页查询库存，联表带出物料名称和仓库名称 -->
     <select id="selectPageVO" resultType="com.sup.supplierbiz.domain.vo.InventoryVO">
-        SELECT i.id, i.material_id, i.warehouse_id,
-               i.stock_quantity, i.available_quantity, i.frozen_quantity,
-               m.material_name, w.warehouse_name
-        FROM inventory i
-        LEFT JOIN materials m ON i.material_id = m.id
-        LEFT JOIN warehouse w ON i.warehouse_id = w.id
-        <where>
-            i.deleted = 0
-            <if test="materialName != null and materialName != ''">
-                AND m.material_name LIKE CONCAT('%', #{materialName}, '%')
-            </if>
-        </where>
-        ORDER BY i.id DESC
+<!--        SELECT i.id, i.material_id, i.warehouse_id,-->
+<!--               i.stock_quantity, i.available_quantity, i.frozen_quantity,-->
+<!--               m.material_name, w.warehouse_name-->
+<!--        FROM inventory i-->
+<!--        LEFT JOIN materials m ON i.material_id = m.id-->
+<!--        LEFT JOIN warehouse w ON i.warehouse_id = w.id-->
+<!--        <where>-->
+<!--            i.deleted = 0-->
+<!--            <if test="materialName != null and materialName != ''">-->
+<!--                AND m.material_name LIKE CONCAT('%', #{materialName}, '%')-->
+<!--            </if>-->
+<!--        </where>-->
+<!--        ORDER BY i.id DESC-->
+            SELECT i.id,i.material_id,i.warehouse_id,i.stock_quantity,i.available_quantity,i.frozen_quantity,
+                   m.material_name,w.warehouse_name
+            FROM inventory i
+            LEFT JOIN materials m ON i.material_id = m.id
+            LEFT JOIN warehouse w ON i.warehouse_id = w.id
+            <where>
+                i.deleted = 0
+                <if test="materialName!= null and materialName !=''">
+                    AND m.material_name like CONCAT('%',#{materialName},'%')
+                </if>
+            </where>
+            ORDER BY i.id DESC
     </select>
 </mapper>
