@@ -32,11 +32,18 @@
 - 关键设计：
   - 先插主表拿到自增 id 回填，再批量插入明细（`saveBatch`）
   - `listByIds` 一次 IN 查询 + `Map<id, 物料>` 内存索引，**杜绝循环查库的 N+1 问题**
-  - 金额用 `BigDecimal` 计算（除法显式 scale + `HALF_UP`），等值比较用 `compareTo`
+  - 金额用 `BigDecimal` 计算（每行 `setScale(2, HALF_UP)` 后累加），等值比较用 `compareTo`
   - 物料不存在 / 明细为空 → 抛业务异常整体回滚（含 InnoDB 自增 id 跳号的验证记录）
-- 订单详情接口（VO 化进行中，避免 deleted/createdBy 等内部字段外泄）
+- 订单详情接口 VO 化：返回 `PurchaseOrderDetailVO`（主表 + 明细列表），剔除 `deleted`/`createdBy`/`updatedBy` 等内部字段
 
-### 4. 工程基础设施
+### 4. 库存模块 + 并发控制
+- 库存分页查询：自定义 Mapper XML 联表 `inventory` / `materials` / `warehouse`，带物料名/仓库名，复用 `PageQuery`/`PageDTO`
+- 入库（有记录累加 / 无记录新建）、出库扣减，按联合唯一键 `(material_id, warehouse_id)` 保证唯一
+- **超卖复现实验**：100 线程并发扣 1、初始库存 10，朴素"先查后改"出现丢失更新（成功 66 次但库存只降 10）
+- **并发修复**：Redisson 分布式锁（主方案，`lock:inventory:{materialId}:{warehouseId}` 细粒度 + watchdog 自动续期）+ 乐观锁 `@Version` CAS 重试（兜底），修复后 10 成功 / 90 失败 / 库存=0 不为负
+- 关键决策：`stockIn`/`stockOut` 移除 `@Transactional`——锁内自旋重试与事务边界冲突，事务会让 update 可见性推迟导致自旋读到旧值死循环
+
+### 5. 工程基础设施
 - 统一响应体 `Result<T>` + 全局异常处理器（Service 抛业务异常，Controller 不写 try-catch）
 - 全表审计五件套：`status` / `deleted`（逻辑删除）/ `created_at` / `updated_at` / 表注释
 - 阿里《Java 开发手册》黄山版落地：禁魔法值、禁 Executors 创建线程池、卫语句、分层约束
@@ -44,9 +51,6 @@
 
 ## 进行中（Roadmap）
 
-- [ ] 库存模块：分页查询（联表物料/仓库）、入库累加、出库扣减
-- [ ] 超卖复现实验：100 线程并发扣减（`ThreadPoolExecutor` 显式参数 + `CountDownLatch` 发令枪）
-- [ ] 并发修复：乐观锁（`@Version`）与 Redisson 分布式锁（细粒度 key + 看门狗）对比
 - [ ] Redis 缓存：物料详情 Cache Aside（穿透 / 击穿 / 雪崩应对）
 
 ## 快速开始
