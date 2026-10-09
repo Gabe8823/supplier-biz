@@ -14,6 +14,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+/**
+ * 采购订单持久化实体
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -21,9 +27,9 @@ import java.time.LocalDateTime;
 public class PurchaseOrder {
 
     @TableId(value = "id", type = IdType.AUTO)
-    private Long id;//订单id
-    private String poNo;//订单编号
-    private Long supplierId;//供应商id
+    /** 订单id */ private Long id;
+    /** 订单编号 */ private String poNo;
+    /** 供应商id */ private Long supplierId;
     private LocalDate orderDate;
     private LocalDate expectedDeliveryDate;
     private BigDecimal totalAmount;

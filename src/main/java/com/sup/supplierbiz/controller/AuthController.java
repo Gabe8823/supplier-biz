@@ -16,6 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static com.baomidou.mybatisplus.core.toolkit.Wrappers.lambdaQuery;
+/**
+ * 用户认证接口
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Tag(name = "用户登录模块")
 @RestController
 @RequestMapping("/api/auth")
@@ -25,7 +31,7 @@ public class AuthController {
     private final UserService userService;
     @Operation(summary = "用户登录列表")
     @PostMapping("/login")
-    public Result<String> Login(@RequestBody LoginDTO dto){
+    public Result<String> login(@RequestBody LoginDTO dto){
         log.info("login请求体：{}",dto);
         return Result.success(userService.login(dto));
     }

@@ -17,14 +17,21 @@ import java.security.Key;
 import java.util.Date;
 
 
+/**
+ * JWT 工具类
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Component
-//@RequiredArgsConstructor
 public class JWTUtils {
-    //private final JWTProperties jwtProperties;
+    /** JWT 签名密钥 */
     @Value("${jwt.secret}")
     private String secret;
+    /** JWT 过期时间（毫秒） */
     @Value("${jwt.expiration}")
     private long expiration;
+    /** HMAC 密钥对象，懒加载 */
     private SecretKey key;
 
 
@@ -46,12 +53,18 @@ public class JWTUtils {
         Date now = new Date();
         Date expireDate = new Date(now.getTime() + expiration);
         return Jwts.builder()
-                .setSubject(String.valueOf(userId)) //设置主题
-                .claim("username",username) //声明
-                .setIssuedAt(now)//签发时间
-                .setExpiration(expireDate)//过期时间
-                .signWith(key)//key签名
-                .compact();//生成jwt字符串
+                //设置主题
+                .setSubject(String.valueOf(userId))
+                //声明
+                .claim("username",username)
+                //签发时间
+                .setIssuedAt(now)
+                //过期时间
+                .setExpiration(expireDate)
+                //key签名
+                .signWith(key)
+                //生成jwt字符串
+                .compact();
     }
 
     /**
@@ -61,10 +74,13 @@ public class JWTUtils {
      */
     public Claims parseToken(String token){
         return Jwts.parserBuilder()
-                .setSigningKey(key) //同一把钥匙解析
+                //同一把钥匙解析
+                .setSigningKey(key)
                 .build()
-                .parseClaimsJws(token)//解析、验签、验过期
-                .getBody();// 获得载荷
+                //解析、验签、验过期
+                .parseClaimsJws(token)
+                // 获得载荷
+                .getBody();
     }
 
     public boolean validateToken(String token){
@@ -72,7 +88,8 @@ public class JWTUtils {
             parseToken(token);
             return true;
         } catch (ExpiredJwtException e) {
-            return false;//token过期
+            //token过期
+            return false;
         } catch (Exception e){
             return false;
         }

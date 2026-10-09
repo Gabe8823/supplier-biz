@@ -11,6 +11,8 @@ import com.sup.supplierbiz.domain.dto.PurchaseOrderCreateDTO;
 import com.sup.supplierbiz.domain.po.Materials;
 import com.sup.supplierbiz.domain.po.PurchaseOrder;
 import com.sup.supplierbiz.domain.po.PurchaseOrderItem;
+import com.sup.supplierbiz.domain.vo.PurchaseOrderDetailVO;
+import com.sup.supplierbiz.domain.vo.PurchaseOrderItemVO;
 import com.sup.supplierbiz.mapper.PurchaseOrderMapper;
 import com.sup.supplierbiz.service.MaterialService;
 import com.sup.supplierbiz.service.PurchaseOrderItemService;
@@ -26,23 +28,38 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 采购订单服务实现
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Service
 @RequiredArgsConstructor
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, PurchaseOrder> implements PurchaseOrderService {
     private final MaterialService materialService;
     private final PurchaseOrderItemService purchaseOrderItemService;
+
+    /**
+     * 创建订单
+     *
+     * @param dto
+     * @param userId
+     * @return
+     */
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Long createOrder(PurchaseOrderCreateDTO dto,Long userId) {
+    public Long createOrder(PurchaseOrderCreateDTO dto, Long userId) {
         //检查items非空
         List<Items> items = dto.getItems();
-        if(items==null||items.isEmpty()){
-            throw new BusinessException(ResultCode.PARAM_ERROR,"采购明细不能为空");
-    }
+        if (items == null || items.isEmpty()) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "采购明细不能为空");
+        }
         //构建PurchaseOrder
         PurchaseOrder order = new PurchaseOrder();
-        BeanUtil.copyProperties(dto,order);
-        order.setStatus(OrderStatus.PENDING); // 服务端定
+        BeanUtil.copyProperties(dto, order);
+        // 服务端定
+        order.setStatus(OrderStatus.PENDING);
         order.setCreatedBy(userId);
         order.setUpdatedBy(userId);
         order.setPoNo(generatePoNo());
@@ -53,18 +70,21 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         Set<Long> materialIds = items.stream().map(Items::getMaterialId).collect(Collectors.toSet());
         Map<Long, Materials> materialsMap = materialService.listByIds(materialIds).stream().collect(Collectors.toMap(Materials::getId, m -> m));
 
-        BigDecimal totalAmount = BigDecimal.ZERO;         // 不含税总额，先放 0
-        BigDecimal totalTax = BigDecimal.ZERO;            // 税额合计，先放 0
-        BigDecimal totalAmountWithTax = BigDecimal.ZERO;  // 价税合计，先放 0
+        // 不含税总额，先放 0
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        // 税额合计，先放 0
+        BigDecimal totalTax = BigDecimal.ZERO;
+        // 价税合计，先放 0
+        BigDecimal totalAmountWithTax = BigDecimal.ZERO;
         List<PurchaseOrderItem> itemList = new ArrayList<>();
         int sort = 1;
         for (Items item : items) {
             Materials materials = materialsMap.get(item.getMaterialId());
-            if (materials==null){
-                throw new BusinessException(ResultCode.PARAM_ERROR,"物料不存在"+item.getMaterialId());
+            if (materials == null) {
+                throw new BusinessException(ResultCode.PARAM_ERROR, "物料不存在" + item.getMaterialId());
             }
             BigDecimal amount = item.getOrderQuantity().multiply(item.getUnitPrice());
-            BigDecimal taxAmount = amount.multiply(item.getTaxRate()).divide( new BigDecimal ( "100" ), 2 , RoundingMode.HALF_UP);
+            BigDecimal taxAmount = amount.multiply(item.getTaxRate()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
             BigDecimal amountWithTax = amount.add(taxAmount);
 
             totalAmount = totalAmount.add(amount);
@@ -107,9 +127,40 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         return id;
     }
 
+    /**
+     * 生成订单号
+     *
+     * @return
+     */
     private String generatePoNo() {
         String date = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyyMMdd"));
-        int rand = new Random ().nextInt( 9000 ) + 1000 ;
+        int rand = new Random().nextInt(9000) + 1000;
         return "PO" + date + rand;
+    }
+
+    /**
+     * 查询订单详情
+     *
+     * @param id
+     * @return
+     */
+    @Override
+    public PurchaseOrderDetailVO getDetail(Long id) {
+        PurchaseOrder order = getById(id);
+        if (order == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
+        }
+        List<PurchaseOrderItem> itemList = purchaseOrderItemService.lambdaQuery().eq(PurchaseOrderItem::getPoId, id)
+                .orderByAsc(PurchaseOrderItem::getSortOrder)
+                .list();
+        PurchaseOrderDetailVO vo = new PurchaseOrderDetailVO();
+        BeanUtil.copyProperties(order,vo);
+        List<PurchaseOrderItemVO> itemVOList = itemList.stream().map(item -> {
+            PurchaseOrderItemVO itemVO = new PurchaseOrderItemVO();
+            BeanUtil.copyProperties(item, itemVO);
+            return itemVO;
+        }).collect(Collectors.toList());
+        vo.setItems(itemVOList);
+        return vo;
     }
 }

@@ -13,20 +13,31 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.io.IOException;
 
+/**
+ * JWT 认证拦截器
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Component
 @RequiredArgsConstructor
 public class JwtInterceptor implements HandlerInterceptor {
+
+    private static final String AUTHORIZATION_HEADER = "Authorization";
+    private static final String BEARER_PREFIX = "Bearer ";
+    private static final int TOKEN_START_INDEX = BEARER_PREFIX.length();
+
     private final JWTUtils jwtUtils;
 
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String header = request.getHeader("Authorization");
-        if (header == null || !header.startsWith("Bearer ")) {
+        String header = request.getHeader(AUTHORIZATION_HEADER);
+        if (header == null || !header.startsWith(BEARER_PREFIX)) {
             write401(response);
             return false;
         }
-        String token = header.substring(7);
+        String token = header.substring(TOKEN_START_INDEX);
 
         try {
             Claims claims = jwtUtils.parseToken(token);

@@ -13,24 +13,30 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 物料持久化实体
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @TableName(value = "materials")
 public class Materials {
     @TableId(type = IdType.AUTO)
-    private Long id ; //物料id
-    private String materialCode;//物料编号
-    private String materialName;//物料名称
-    private String specification;//物料规格
-    private String unit;//物料单位
-    private String category;//物料种类
-    private BigDecimal safetyStock;//安全库存
+    /** 物料id */ private Long id;
+    /** 物料编号 */ private String materialCode;
+    /** 物料名称 */ private String materialName;
+    /** 物料规格 */ private String specification;
+    /** 物料单位 */ private String unit;
+    /** 物料种类 */ private String category;
+    /** 安全库存 */ private BigDecimal safetyStock;
 
-    private LocalDateTime createdAt;//创建时间
-    private LocalDateTime updatedAt;//更新时间
-    private Status status;//状态
+    /** 创建时间 */ private LocalDateTime createdAt;
+    /** 更新时间 */ private LocalDateTime updatedAt;
+    /** 状态 */ private Status status;
     @TableLogic
-    private Deleted deleted;//删除 1/0
+    /** 删除 1/0 */ private Deleted deleted;
 
 }

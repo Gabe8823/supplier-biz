@@ -13,6 +13,12 @@ import com.sup.supplierbiz.util.JWTUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+/**
+ * 用户服务实现
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Service
 @RequiredArgsConstructor
 public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {

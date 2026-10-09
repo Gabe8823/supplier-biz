@@ -4,6 +4,12 @@ import com.sup.supplierbiz.common.enums.ResultCode;
 import lombok.Getter;
 
 
+/**
+ * 业务异常
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Getter
 public class BusinessException extends RuntimeException{
     private final Integer code;

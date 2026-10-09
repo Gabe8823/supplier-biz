@@ -6,6 +6,12 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
+/**
+ * 订单明细项 DTO
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

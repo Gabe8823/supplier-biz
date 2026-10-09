@@ -6,6 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+/**
+ * Web MVC 配置，注册 JWT 拦截器
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Configuration
 @RequiredArgsConstructor
 public class WebMvcConfig  implements WebMvcConfigurer {

@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
+
 /**
- * 登录请求 DTO
+ * 库存变动 DTO
  *
  * @author sup
  * @date 2026-10-09
@@ -13,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginDTO {
-    private String username;
-    private String password;
-
+public class StockChangeDTO {
+    private Long materialId;
+    private Long warehouseId;
+    private BigDecimal quantity;
 }

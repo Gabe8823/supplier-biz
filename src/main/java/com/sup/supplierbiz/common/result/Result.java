@@ -8,6 +8,12 @@ import lombok.NoArgsConstructor;
 
 import static com.sup.supplierbiz.common.enums.ResultCode.SUCCESS;
 
+/**
+ * 统一响应封装
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
