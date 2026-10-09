@@ -12,4 +12,10 @@ import org.springframework.stereotype.Service;
  * @date 2026-10-09
  */
 public interface MaterialService extends IService<Materials> {
+    /**
+     * 物料详情查询
+     * @param id
+     * @return
+     */
+    Materials getDetailById(Long id);
 }

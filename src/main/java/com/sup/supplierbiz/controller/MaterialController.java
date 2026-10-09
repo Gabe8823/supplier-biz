@@ -43,4 +43,9 @@ public class MaterialController {
                 Page.of(query.getPageNum(), query.getPageSize()), queryWrapper);
         return Result.success(PageDTO.of(page));
     }
+    @Operation(summary = "物料详情查询")
+    @GetMapping("/{id}")
+    public Result<Materials> getDetailById(@PathVariable Long id){
+        return Result.success(materialService.getDetailById(id));
+    }
 }
