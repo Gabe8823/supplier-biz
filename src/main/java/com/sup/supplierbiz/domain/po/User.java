@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * 系统用户持久化实体
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -23,7 +29,7 @@ public class User {
     private String password;
     private Status status;
     @TableLogic
-    private Deleted deleted;//删除 1/0
-    private LocalDateTime createdAt;//创建时间
-    private LocalDateTime updatedAt;//更新时间
+    /** 删除 1/0 */ private Deleted deleted;
+    /** 创建时间 */ private LocalDateTime createdAt;
+    /** 更新时间 */ private LocalDateTime updatedAt;
 }

@@ -10,6 +10,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 采购订单管理接口
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @RestController
 @RequestMapping("/api/purchase-orders")
 @Tag(name = "采购订单模块")

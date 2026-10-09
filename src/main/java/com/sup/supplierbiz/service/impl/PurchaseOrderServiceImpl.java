@@ -28,6 +28,12 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * 采购订单服务实现
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Service
 @RequiredArgsConstructor
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, PurchaseOrder> implements PurchaseOrderService {
@@ -52,7 +58,8 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         //构建PurchaseOrder
         PurchaseOrder order = new PurchaseOrder();
         BeanUtil.copyProperties(dto, order);
-        order.setStatus(OrderStatus.PENDING); // 服务端定
+        // 服务端定
+        order.setStatus(OrderStatus.PENDING);
         order.setCreatedBy(userId);
         order.setUpdatedBy(userId);
         order.setPoNo(generatePoNo());
@@ -63,9 +70,12 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         Set<Long> materialIds = items.stream().map(Items::getMaterialId).collect(Collectors.toSet());
         Map<Long, Materials> materialsMap = materialService.listByIds(materialIds).stream().collect(Collectors.toMap(Materials::getId, m -> m));
 
-        BigDecimal totalAmount = BigDecimal.ZERO;         // 不含税总额，先放 0
-        BigDecimal totalTax = BigDecimal.ZERO;            // 税额合计，先放 0
-        BigDecimal totalAmountWithTax = BigDecimal.ZERO;  // 价税合计，先放 0
+        // 不含税总额，先放 0
+        BigDecimal totalAmount = BigDecimal.ZERO;
+        // 税额合计，先放 0
+        BigDecimal totalTax = BigDecimal.ZERO;
+        // 价税合计，先放 0
+        BigDecimal totalAmountWithTax = BigDecimal.ZERO;
         List<PurchaseOrderItem> itemList = new ArrayList<>();
         int sort = 1;
         for (Items item : items) {

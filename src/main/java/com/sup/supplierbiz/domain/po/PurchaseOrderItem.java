@@ -12,6 +12,12 @@ import lombok.NoArgsConstructor;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+/**
+ * 采购订单明细持久化实体
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -16,6 +16,12 @@ import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 物料管理接口
+ *
+ * @author sup
+ * @date 2026-10-09
+ */
 @Tag(name = "物料管理模块")
 @RestController
 @RequestMapping("/api/materials")
