@@ -83,9 +83,12 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
             if (materials == null) {
                 throw new BusinessException(ResultCode.PARAM_ERROR, "物料不存在" + item.getMaterialId());
             }
-            BigDecimal amount = item.getOrderQuantity().multiply(item.getUnitPrice());
-            BigDecimal taxAmount = amount.multiply(item.getTaxRate()).divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
-            BigDecimal amountWithTax = amount.add(taxAmount);
+            // 每个金额算完立刻 setScale(2, HALF_UP)，避免后续累加出现 >2 位小数（D4-1 修复）
+            BigDecimal amount = item.getOrderQuantity().multiply(item.getUnitPrice())
+                    .setScale(2, RoundingMode.HALF_UP);
+            BigDecimal taxAmount = amount.multiply(item.getTaxRate())
+                    .divide(new BigDecimal("100"), 2, RoundingMode.HALF_UP);
+            BigDecimal amountWithTax = amount.add(taxAmount).setScale(2, RoundingMode.HALF_UP);
 
             totalAmount = totalAmount.add(amount);
             totalTax = totalTax.add(taxAmount);

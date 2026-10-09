@@ -9,6 +9,13 @@ spring:
     url: jdbc:mysql://localhost:3306/supplier_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
     username: root
     password: ${DB_PASSWORD:root}
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      # 本地 Redis 无密码；生产通过环境变量 REDIS_PASSWORD 注入
+      database: 0
+      timeout: 3000ms
 jwt:
   # 生产环境通过环境变量 JWT_SECRET 注入；此处为本地开发默认值，非生产密钥
   secret: ${JWT_SECRET:dev-only-0123456789abcdef0123456789abcdef}
