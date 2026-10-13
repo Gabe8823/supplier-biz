@@ -28,4 +28,20 @@ public interface PurchaseOrderService extends IService<PurchaseOrder> {
      * @return 订单详情 VO，包含主表字段与明细行
      */
     PurchaseOrderDetailVO getDetail(Long id);
+
+    /**
+     * 根据id进行审核
+     *
+     * @param id
+     * @param userId
+     */
+    void approveById(Long id, Long userId);
+
+    /**
+     * 根据id进行驳回
+     * @param id
+     * @param reason
+     * @param userId
+     */
+    void rejectById(Long id, String reason, Long userId);
 }

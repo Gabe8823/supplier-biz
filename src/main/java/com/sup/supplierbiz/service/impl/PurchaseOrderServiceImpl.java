@@ -24,6 +24,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -157,7 +158,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
                 .orderByAsc(PurchaseOrderItem::getSortOrder)
                 .list();
         PurchaseOrderDetailVO vo = new PurchaseOrderDetailVO();
-        BeanUtil.copyProperties(order,vo);
+        BeanUtil.copyProperties(order, vo);
         List<PurchaseOrderItemVO> itemVOList = itemList.stream().map(item -> {
             PurchaseOrderItemVO itemVO = new PurchaseOrderItemVO();
             BeanUtil.copyProperties(item, itemVO);
@@ -165,5 +166,38 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         }).collect(Collectors.toList());
         vo.setItems(itemVOList);
         return vo;
+    }
+
+    @Override
+    public void approveById(Long id, Long userId) {
+        PurchaseOrder order = getById(id);
+        if (order == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
+        }
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态非待审核，不可审核");
+        }
+        lambdaUpdate().eq(PurchaseOrder::getId, id)
+                .set(PurchaseOrder::getStatus, OrderStatus.APPROVED)
+                .set(PurchaseOrder::getReviewedAt, LocalDateTime.now())
+                .set(PurchaseOrder::getReviewedBy, userId)
+                .update();
+    }
+
+    @Override
+    public void rejectById(Long id, String reason, Long userId) {
+        PurchaseOrder order = getById(id);
+        if (order == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
+        }
+        if (order.getStatus() != OrderStatus.PENDING) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态非待审核，不可审核");
+        }
+        lambdaUpdate().eq(PurchaseOrder::getId, id)
+                .set(PurchaseOrder::getStatus, OrderStatus.REJECTED)
+                .set(PurchaseOrder::getRejectReason, reason)
+                .set(PurchaseOrder::getReviewedAt, LocalDateTime.now())
+                .set(PurchaseOrder::getReviewedBy, userId)
+                .update();
     }
 }

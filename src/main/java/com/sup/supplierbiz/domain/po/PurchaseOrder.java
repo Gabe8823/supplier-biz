@@ -36,6 +36,8 @@ public class PurchaseOrder {
     private BigDecimal totalTax;
     private BigDecimal totalAmountWithTax;
     private OrderStatus status;
+    /** 驳回原因 */
+    private String rejectReason;
     @TableLogic
     private Deleted deleted;
     private String paymentTerms;

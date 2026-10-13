@@ -16,9 +16,11 @@ public enum OrderStatus {
     /** 待审核 */
     PENDING(1, "待审核"),
     /** 已审核 */
-    APPROVED(2, "已审核"),
+    APPROVED(2, "审核通过"),
+    /** 驳回 */
+    REJECTED(3,"驳回"),
     /** 已关闭 */
-    CLOSED(3, "已关闭");
+    CLOSED(4, "已关闭");
     @EnumValue
     private final Integer value;
     private final String message;

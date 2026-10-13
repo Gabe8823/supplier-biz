@@ -24,16 +24,32 @@ public class PurchaseOrderController {
     private final PurchaseOrderService purchaseOrderService;
 
     @Operation(summary = "创建订单")
-    @PostMapping()
+    @PostMapping
     public Result<Long> create(@RequestBody PurchaseOrderCreateDTO dto,
                                HttpServletRequest request) {
         Long userId = Long.valueOf(request.getAttribute("userId").toString());
 
-        return Result.success(purchaseOrderService.createOrder(dto,userId));
+        return Result.success(purchaseOrderService.createOrder(dto, userId));
     }
+
     @Operation(summary = "查询订单详情")
     @GetMapping("/{id}")
-    public Result<PurchaseOrderDetailVO> findById(@PathVariable Long id){
+    public Result<PurchaseOrderDetailVO> findById(@PathVariable Long id) {
         return Result.success(purchaseOrderService.getDetail(id));
+    }
+
+    @Operation(summary = "审核订单")
+    @PutMapping("/{id}/approve")
+    public Result<Void> approveById(@PathVariable Long id,HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+        purchaseOrderService.approveById(id,userId);
+        return Result.success();
+    }
+    @Operation(summary = "驳回订单")
+    @PutMapping("/{id}/reject")
+    public Result<Void> rejectById(@PathVariable Long id,@RequestParam String reason, HttpServletRequest request){
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+        purchaseOrderService.rejectById(id,reason,userId);
+        return Result.success();
     }
 }
