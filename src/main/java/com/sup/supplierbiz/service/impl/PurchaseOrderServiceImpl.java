@@ -191,7 +191,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
             throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
         }
         if (order.getStatus() != OrderStatus.PENDING) {
-            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态非待审核，不可审核");
+            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态非待审核，不可驳回");
         }
         lambdaUpdate().eq(PurchaseOrder::getId, id)
                 .set(PurchaseOrder::getStatus, OrderStatus.REJECTED)

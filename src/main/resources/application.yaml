@@ -6,7 +6,11 @@ spring:
     name: supplier-biz
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/supplier_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false
+    # allowPublicKeyRetrieval=true：MySQL 9.x 的 caching_sha2_password 在
+    # useSSL=false 时必须取服务端 RSA 公钥来加密密码，否则报
+    # "Public Key Retrieval is not allowed"。密码缓存是内存态，MySQL 重启后
+    # 缓存清空即会暴露此问题，故必须显式开启（本地连接无中间人风险）。
+    url: jdbc:mysql://localhost:3306/supplier_db?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
     username: root
     password: ${DB_PASSWORD:root}
   data:
