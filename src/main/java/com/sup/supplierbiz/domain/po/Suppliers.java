@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 
+import com.sup.supplierbiz.common.enums.Deleted;
 import com.sup.supplierbiz.common.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -86,7 +87,7 @@ public class Suppliers {
      * 逻辑删除：0-未删，1-已删
      */
     @TableLogic
-    private Integer deleted;
+    private Deleted deleted;
 
     /**
      * 创建时间

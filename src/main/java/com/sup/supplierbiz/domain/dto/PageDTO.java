@@ -1,5 +1,6 @@
 package com.sup.supplierbiz.domain.dto;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.v3.oas.annotations.Parameter;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class PageDTO<T> {
     /** 每页条数（包装类型可区分未赋值与赋值为 0） */
     @Parameter(description = "每页条数")
     private Long pageSize;
-    public static <T> PageDTO<T> of(Page<T> page){
+    public static <T> PageDTO<T> of(IPage<T> page){
         return new PageDTO<>(page.getTotal(),page.getRecords(), page.getCurrent(), page.getSize());
     }
 }
