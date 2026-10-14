@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
  * 供应商表
  * @TableName suppliers
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @TableName(value ="suppliers")

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 /**
-* @author 23219
+* @author Gabe
 * @description 针对表【inventory(库存表)】的数据库操作Mapper
 * @createDate 2026-10-01 15:03:02
 * @Entity com.sup.supplierbiz.domain.po.Inventory

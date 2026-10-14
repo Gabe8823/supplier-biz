@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * 供应商业务启动类
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @SpringBootApplication

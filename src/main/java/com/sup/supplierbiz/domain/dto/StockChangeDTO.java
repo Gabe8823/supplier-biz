@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 /**
  * 库存变动 DTO
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

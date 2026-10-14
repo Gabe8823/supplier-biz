@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 /**
  * 登录请求 DTO
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

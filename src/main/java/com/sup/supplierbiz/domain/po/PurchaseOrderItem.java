@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 /**
  * 采购订单明细持久化实体
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

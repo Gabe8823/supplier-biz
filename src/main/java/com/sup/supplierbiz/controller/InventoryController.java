@@ -19,7 +19,7 @@ import java.util.List;
 /**
  * 库存管理接口
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Tag(name="库存管理模块")

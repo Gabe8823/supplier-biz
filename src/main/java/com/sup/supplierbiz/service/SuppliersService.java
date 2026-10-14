@@ -11,7 +11,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.sup.supplierbiz.domain.vo.SuppliersVO;
 
 /**
-* @author sup
+* @author Gabe
 * @description 针对表【suppliers(供应商表)】的数据库操作Service
 * @createDate 2026-10-01 15:49:32
 */

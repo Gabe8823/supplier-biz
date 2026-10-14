@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 统一响应状态码枚举
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Getter

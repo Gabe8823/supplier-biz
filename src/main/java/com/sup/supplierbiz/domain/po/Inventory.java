@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
  * 库存表
  * @TableName inventory
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @TableName(value ="inventory")

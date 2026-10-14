@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * 采购订单详情VO（主表信息+明细列表）
  *
- * @author 23219
+ * @author Gabe
  * @date 2026-10-05
  */
 @Data

@@ -19,7 +19,7 @@ import com.sup.supplierbiz.service.SuppliersService;
 import org.springframework.stereotype.Service;
 
 /**
- * @author sup
+ * @author Gabe
  * @description 针对表【suppliers(供应商表)】的数据库操作Service实现
  * @createDate 2026-10-01 15:49:32
  */

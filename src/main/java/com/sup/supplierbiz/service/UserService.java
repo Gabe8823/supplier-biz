@@ -7,7 +7,7 @@ import com.sup.supplierbiz.domain.po.User;
 /**
  * 用户服务接口
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 public interface UserService extends IService<User> {

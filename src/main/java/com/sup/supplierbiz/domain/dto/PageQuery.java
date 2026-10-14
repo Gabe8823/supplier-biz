@@ -5,7 +5,7 @@ import lombok.Data;
 /**
  * 分页查询参数 DTO
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

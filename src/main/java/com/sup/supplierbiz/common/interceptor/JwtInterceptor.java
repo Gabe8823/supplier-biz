@@ -16,7 +16,7 @@ import java.io.IOException;
 /**
  * JWT 认证拦截器
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Component

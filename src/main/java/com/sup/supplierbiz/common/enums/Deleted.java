@@ -7,7 +7,7 @@ import lombok.Getter;
 /**
  * 逻辑删除状态枚举
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Getter

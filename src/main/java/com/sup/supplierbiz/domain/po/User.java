@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 /**
  * 系统用户持久化实体
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

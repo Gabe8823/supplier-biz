@@ -20,7 +20,7 @@ import java.util.Date;
 /**
  * JWT 工具类
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Component

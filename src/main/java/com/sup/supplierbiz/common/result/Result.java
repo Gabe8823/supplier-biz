@@ -11,7 +11,7 @@ import static com.sup.supplierbiz.common.enums.ResultCode.SUCCESS;
 /**
  * 统一响应封装
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Data

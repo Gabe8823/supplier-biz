@@ -19,7 +19,7 @@ import static com.baomidou.mybatisplus.core.toolkit.Wrappers.lambdaQuery;
 /**
  * 用户认证接口
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 @Tag(name = "用户登录模块")

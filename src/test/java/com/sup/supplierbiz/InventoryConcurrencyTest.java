@@ -28,7 +28,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
  * <p>
  * 对照实验（无锁版 / 纯乐观锁版）的实验数据见 docs/dev-log/Day4.md，本测试类仅验证修复后结果。
  *
- * @author 23219
+ * @author Gabe
  * @date 2026-10-09
  */
 @SpringBootTest

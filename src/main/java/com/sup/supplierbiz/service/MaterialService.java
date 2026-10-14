@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 /**
  * 物料服务接口
  *
- * @author sup
+ * @author Gabe
  * @date 2026-10-09
  */
 public interface MaterialService extends IService<Materials> {
