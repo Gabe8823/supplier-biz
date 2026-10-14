@@ -7,6 +7,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 供应商展示 VO
+ *
+ * @author Gabe
+ * @date 2026-10-12
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

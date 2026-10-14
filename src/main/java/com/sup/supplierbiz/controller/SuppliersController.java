@@ -16,6 +16,12 @@ import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 供应商管理接口
+ *
+ * @author Gabe
+ * @date 2026-10-12
+ */
 @Tag(name="供应商管理模块")
 @RestController
 @RequestMapping("/api/suppliers")

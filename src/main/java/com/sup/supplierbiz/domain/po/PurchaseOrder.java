@@ -25,11 +25,13 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @TableName(value = "purchase_orders")
 public class PurchaseOrder {
-
+    /** 订单id */
     @TableId(value = "id", type = IdType.AUTO)
-    /** 订单id */ private Long id;
-    /** 订单编号 */ private String poNo;
-    /** 供应商id */ private Long supplierId;
+    private Long id;
+    /** 订单编号 */
+    private String poNo;
+    /** 供应商id */
+    private Long supplierId;
     private LocalDate orderDate;
     private LocalDate expectedDeliveryDate;
     private BigDecimal totalAmount;

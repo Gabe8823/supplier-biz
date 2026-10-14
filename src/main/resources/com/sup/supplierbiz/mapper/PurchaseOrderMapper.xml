@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sup.supplierbiz.mapper.PurchaseOrderMapper">
+
+    <select id="selectPageVO" resultType="com.sup.supplierbiz.domain.vo.PurchaseOrderVO">
+        SELECT po.id, po.po_no, po.supplier_id, s.supplier_name, po.order_date, po.expected_delivery_date,
+        po.total_amount, po.total_tax, po.total_amount_with_tax, po.status, po.reject_reason,
+        po.payment_terms, po.remarks, po.created_at, po.updated_at
+        FROM purchase_orders po
+        LEFT JOIN suppliers s ON po.supplier_id = s.id
+        <where>
+            po.deleted = 0
+            <if test="supplierName != null and supplierName != ''">
+                AND s.supplier_name LIKE CONCAT('%', #{supplierName}, '%')
+            </if>
+            <if test="status != null">
+                AND po.status = #{status}
+            </if>
+            <if test="startDate != null">
+                AND po.order_date &gt;= #{startDate}
+            </if>
+            <if test="endDate != null">
+                AND po.order_date &lt;= #{endDate}
+            </if>
+        </where>
+        ORDER BY po.id DESC
+    </select>
+</mapper>

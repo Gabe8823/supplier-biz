@@ -2,17 +2,22 @@ package com.sup.supplierbiz.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sup.supplierbiz.common.enums.OrderStatus;
 import com.sup.supplierbiz.common.enums.ResultCode;
 import com.sup.supplierbiz.common.exception.BusinessException;
 import com.sup.supplierbiz.domain.dto.Items;
+import com.sup.supplierbiz.domain.dto.PageDTO;
+import com.sup.supplierbiz.domain.dto.PageQuery;
 import com.sup.supplierbiz.domain.dto.PurchaseOrderCreateDTO;
 import com.sup.supplierbiz.domain.po.Materials;
 import com.sup.supplierbiz.domain.po.PurchaseOrder;
 import com.sup.supplierbiz.domain.po.PurchaseOrderItem;
 import com.sup.supplierbiz.domain.vo.PurchaseOrderDetailVO;
 import com.sup.supplierbiz.domain.vo.PurchaseOrderItemVO;
+import com.sup.supplierbiz.domain.vo.PurchaseOrderVO;
 import com.sup.supplierbiz.mapper.PurchaseOrderMapper;
 import com.sup.supplierbiz.service.MaterialService;
 import com.sup.supplierbiz.service.PurchaseOrderItemService;
@@ -40,6 +45,7 @@ import java.util.stream.Collectors;
 public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, PurchaseOrder> implements PurchaseOrderService {
     private final MaterialService materialService;
     private final PurchaseOrderItemService purchaseOrderItemService;
+    private final PurchaseOrderMapper purchaseOrderMapper;
 
     /**
      * 创建订单
@@ -199,5 +205,11 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
                 .set(PurchaseOrder::getReviewedAt, LocalDateTime.now())
                 .set(PurchaseOrder::getReviewedBy, userId)
                 .update();
+    }
+
+    @Override
+    public PageDTO<PurchaseOrderVO> pageOrder(PageQuery query, String supplierName, OrderStatus status, LocalDate startDate, LocalDate endDate) {
+        Page<PurchaseOrderVO> page =  purchaseOrderMapper.selectPageVO(Page.of(query.getPageNum(),query.getPageSize()),supplierName,status,startDate,endDate);
+        return  PageDTO.of(page);
     }
 }

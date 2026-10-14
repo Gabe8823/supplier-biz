@@ -1,9 +1,16 @@
 package com.sup.supplierbiz.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sup.supplierbiz.common.enums.OrderStatus;
+import com.sup.supplierbiz.domain.dto.PageDTO;
+import com.sup.supplierbiz.domain.dto.PageQuery;
 import com.sup.supplierbiz.domain.dto.PurchaseOrderCreateDTO;
 import com.sup.supplierbiz.domain.po.PurchaseOrder;
 import com.sup.supplierbiz.domain.vo.PurchaseOrderDetailVO;
+import com.sup.supplierbiz.domain.vo.PurchaseOrderVO;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 /**
  * 采购订单服务接口
@@ -19,7 +26,7 @@ public interface PurchaseOrderService extends IService<PurchaseOrder> {
      * @param userId 当前操作用户 id，用于写入 createdBy / updatedBy
      * @return 新建订单的主键 id
      */
-    Long createOrder(PurchaseOrderCreateDTO dto,Long userId);
+    Long createOrder(PurchaseOrderCreateDTO dto, Long userId);
 
     /**
      * 查询采购订单详情，包含订单主表信息及明细行列表。
@@ -39,9 +46,21 @@ public interface PurchaseOrderService extends IService<PurchaseOrder> {
 
     /**
      * 根据id进行驳回
+     *
      * @param id
      * @param reason
      * @param userId
      */
     void rejectById(Long id, String reason, Long userId);
+
+    /**
+     * 订单分页查询
+     * @param query
+     * @param supplierName
+     * @param status
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    PageDTO<PurchaseOrderVO> pageOrder(PageQuery query, String supplierName, OrderStatus status, LocalDate startDate, LocalDate endDate);
 }

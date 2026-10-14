@@ -5,6 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * 供应商新增 DTO
+ *
+ * @author Gabe
+ * @date 2026-10-12
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
