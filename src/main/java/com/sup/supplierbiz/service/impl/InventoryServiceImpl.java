@@ -10,6 +10,7 @@ import com.sup.supplierbiz.domain.dto.PageQuery;
 import com.sup.supplierbiz.domain.dto.StockChangeDTO;
 import com.sup.supplierbiz.domain.po.Inventory;
 import com.sup.supplierbiz.domain.vo.InventoryVO;
+import com.sup.supplierbiz.domain.vo.InventoryWarningVO;
 import com.sup.supplierbiz.service.InventoryService;
 import com.sup.supplierbiz.mapper.InventoryMapper;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,7 @@ import org.redisson.api.RedissonClient;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 /**
  * @author 23219
@@ -123,5 +125,13 @@ public class InventoryServiceImpl extends ServiceImpl<InventoryMapper, Inventory
         } finally {
             lock.unlock();
         }
+    }
+
+    @Override
+    public List<InventoryWarningVO> warning(BigDecimal threshold) {
+        if (threshold==null||threshold.compareTo(BigDecimal.ZERO)<=0){
+            throw new BusinessException(ResultCode.PARAM_ERROR,"预警阈值必须大于0");
+        }
+        return inventoryMapper.stockWarning(threshold);
     }
 }

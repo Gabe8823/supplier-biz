@@ -5,12 +5,17 @@ import com.sup.supplierbiz.domain.dto.PageDTO;
 import com.sup.supplierbiz.domain.dto.PageQuery;
 import com.sup.supplierbiz.domain.dto.StockChangeDTO;
 import com.sup.supplierbiz.domain.vo.InventoryVO;
+import com.sup.supplierbiz.domain.vo.InventoryWarningVO;
 import com.sup.supplierbiz.service.InventoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+
 /**
  * 库存管理接口
  *
@@ -43,5 +48,12 @@ public class InventoryController {
     public Result<Void> stockOut(@RequestBody StockChangeDTO dto) {
         inventoryService.stockOut(dto);
         return Result.success();
+    }
+
+    @Operation(summary = "库存预警")
+    @GetMapping("/warning")
+    public Result<List<InventoryWarningVO>> warning(@RequestParam BigDecimal threshold) {
+        List<InventoryWarningVO> list = inventoryService.warning(threshold);
+        return Result.success(list);
     }
 }

@@ -26,16 +26,43 @@ import java.time.LocalDateTime;
 public class Materials {
     @TableId(type = IdType.AUTO)
     /** 物料id */ private Long id;
-    /** 物料编号 */ private String materialCode;
-    /** 物料名称 */ private String materialName;
-    /** 物料规格 */ private String specification;
-    /** 物料单位 */ private String unit;
-    /** 物料种类 */ private String category;
-    /** 安全库存 */ private BigDecimal safetyStock;
+    /**
+     * 物料编号
+     */
+    private String materialCode;
+    /**
+     * 物料名称
+     */
+    private String materialName;
+    /**
+     * 物料规格
+     */
+    private String specification;
+    /**
+     * 物料单位
+     */
+    private String unit;
+    /**
+     * 物料种类
+     */
+    private String category;
+    /**
+     * 安全库存
+     */
+    private BigDecimal safetyStock;
 
-    /** 创建时间 */ private LocalDateTime createdAt;
-    /** 更新时间 */ private LocalDateTime updatedAt;
-    /** 状态 */ private Status status;
+    /**
+     * 创建时间
+     */
+    private LocalDateTime createdAt;
+    /**
+     * 更新时间
+     */
+    private LocalDateTime updatedAt;
+    /**
+     * 状态
+     */
+    private Status status;
     @TableLogic
     /** 删除 1/0 */ private Deleted deleted;
 

@@ -4,7 +4,11 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.sup.supplierbiz.domain.po.Inventory;
 import com.sup.supplierbiz.domain.vo.InventoryVO;
+import com.sup.supplierbiz.domain.vo.InventoryWarningVO;
 import org.apache.ibatis.annotations.Param;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author 23219
@@ -22,6 +26,13 @@ public interface InventoryMapper extends BaseMapper<Inventory> {
      * @return 分页结果，与传入的 page 为同一对象
      */
     Page<InventoryVO> selectPageVO(Page<InventoryVO> page, @Param("materialName") String materialName);
+
+    /**
+     * 库存预警
+     * @param threshold
+     * @return
+     */
+    List<InventoryWarningVO> stockWarning(@Param("threshold") BigDecimal threshold);
 }
 
 

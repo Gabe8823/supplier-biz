@@ -6,6 +6,10 @@ import com.sup.supplierbiz.domain.dto.PageQuery;
 import com.sup.supplierbiz.domain.dto.StockChangeDTO;
 import com.sup.supplierbiz.domain.po.Inventory;
 import com.sup.supplierbiz.domain.vo.InventoryVO;
+import com.sup.supplierbiz.domain.vo.InventoryWarningVO;
+
+import java.math.BigDecimal;
+import java.util.List;
 
 /**
 * @author 23219
@@ -35,4 +39,11 @@ public interface InventoryService extends IService<Inventory> {
      * @param dto
      */
     void stockOut(StockChangeDTO dto);
+
+    /**
+     * 库存预警
+     * @param threshold
+     * @return
+     */
+    List<InventoryWarningVO> warning(BigDecimal threshold);
 }
