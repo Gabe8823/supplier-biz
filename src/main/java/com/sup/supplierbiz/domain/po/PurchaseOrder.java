@@ -48,6 +48,8 @@ public class PurchaseOrder {
     private LocalDateTime updatedAt;
     private Long createdBy;
     private Long updatedBy;
+    private LocalDateTime cancelledAt;
+    private Long cancelledBy;
     private LocalDateTime reviewedAt;
     private Long reviewedBy;
 }

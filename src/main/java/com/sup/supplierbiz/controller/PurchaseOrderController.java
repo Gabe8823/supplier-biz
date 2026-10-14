@@ -70,4 +70,11 @@ public class PurchaseOrderController {
                                                       @RequestParam(required = false) LocalDate endDate) {
         return Result.success(purchaseOrderService.pageOrder(query, supplierName, status, startDate, endDate));
     }
+    @Operation(summary = "订单作废")
+    @PutMapping("/{id}/cancel")
+    public Result<Void> cancelById(@PathVariable Long id,  HttpServletRequest request) {
+        Long userId = Long.valueOf(request.getAttribute("userId").toString());
+        purchaseOrderService.cancelById(id, userId);
+        return Result.success();
+    }
 }

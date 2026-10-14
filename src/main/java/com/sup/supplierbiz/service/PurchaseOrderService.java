@@ -63,4 +63,11 @@ public interface PurchaseOrderService extends IService<PurchaseOrder> {
      * @return
      */
     PageDTO<PurchaseOrderVO> pageOrder(PageQuery query, String supplierName, OrderStatus status, LocalDate startDate, LocalDate endDate);
+
+    /**
+     * 取消订单
+     * @param id
+     * @param userId
+     */
+    void cancelById(Long id, Long userId);
 }

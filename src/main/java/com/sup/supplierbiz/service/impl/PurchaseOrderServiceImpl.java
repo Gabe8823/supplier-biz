@@ -209,7 +209,27 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
 
     @Override
     public PageDTO<PurchaseOrderVO> pageOrder(PageQuery query, String supplierName, OrderStatus status, LocalDate startDate, LocalDate endDate) {
-        Page<PurchaseOrderVO> page =  purchaseOrderMapper.selectPageVO(Page.of(query.getPageNum(),query.getPageSize()),supplierName,status,startDate,endDate);
-        return  PageDTO.of(page);
+        Page<PurchaseOrderVO> page = purchaseOrderMapper.selectPageVO(Page.of(query.getPageNum(), query.getPageSize()), supplierName, status, startDate, endDate);
+        return PageDTO.of(page);
+    }
+
+    @Override
+    public void cancelById(Long id, Long userId) {
+        PurchaseOrder order = getById(id);
+        if (order == null) {
+            throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
+        }
+        if (order.getStatus()==OrderStatus.REJECTED){
+            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态已驳回，无法取消");
+        }
+        if (order.getStatus() != OrderStatus.APPROVED) {
+            throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态未审核，无法取消");
+        }
+
+        lambdaUpdate().eq(PurchaseOrder::getId, id)
+                .set(PurchaseOrder::getStatus, OrderStatus.CLOSED)
+                .set(PurchaseOrder::getCancelledAt, LocalDateTime.now())
+                .set(PurchaseOrder::getCancelledBy, userId)
+                .update();
     }
 }
