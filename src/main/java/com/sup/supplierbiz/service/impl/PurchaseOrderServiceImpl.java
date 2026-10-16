@@ -2,7 +2,6 @@ package com.sup.supplierbiz.service.impl;
 
 
 import cn.hutool.core.bean.BeanUtil;
-import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sup.supplierbiz.common.enums.OrderStatus;
@@ -19,6 +18,7 @@ import com.sup.supplierbiz.domain.vo.PurchaseOrderDetailVO;
 import com.sup.supplierbiz.domain.vo.PurchaseOrderItemVO;
 import com.sup.supplierbiz.domain.vo.PurchaseOrderVO;
 import com.sup.supplierbiz.mapper.PurchaseOrderMapper;
+import com.sup.supplierbiz.mq.RabbitMQProducer;
 import com.sup.supplierbiz.service.MaterialService;
 import com.sup.supplierbiz.service.PurchaseOrderItemService;
 import com.sup.supplierbiz.service.PurchaseOrderService;
@@ -46,6 +46,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
     private final MaterialService materialService;
     private final PurchaseOrderItemService purchaseOrderItemService;
     private final PurchaseOrderMapper purchaseOrderMapper;
+    private final RabbitMQProducer rabbitMQProducer;
 
     /**
      * 创建订单
@@ -188,6 +189,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
                 .set(PurchaseOrder::getReviewedAt, LocalDateTime.now())
                 .set(PurchaseOrder::getReviewedBy, userId)
                 .update();
+        rabbitMQProducer.notifySupplier(order.getPoNo(), order.getSupplierId(), "APPROVED", userId);
     }
 
     @Override
@@ -205,6 +207,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
                 .set(PurchaseOrder::getReviewedAt, LocalDateTime.now())
                 .set(PurchaseOrder::getReviewedBy, userId)
                 .update();
+        rabbitMQProducer.notifySupplier(order.getPoNo(), order.getSupplierId(), "REJECTED", userId);
     }
 
     @Override
@@ -219,7 +222,7 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
         if (order == null) {
             throw new BusinessException(ResultCode.NOT_FOUND, "订单不存在");
         }
-        if (order.getStatus()==OrderStatus.REJECTED){
+        if (order.getStatus() == OrderStatus.REJECTED) {
             throw new BusinessException(ResultCode.PARAM_ERROR, "订单状态已驳回，无法取消");
         }
         if (order.getStatus() != OrderStatus.APPROVED) {
@@ -231,5 +234,6 @@ public class PurchaseOrderServiceImpl extends ServiceImpl<PurchaseOrderMapper, P
                 .set(PurchaseOrder::getCancelledAt, LocalDateTime.now())
                 .set(PurchaseOrder::getCancelledBy, userId)
                 .update();
+        rabbitMQProducer.notifySupplier(order.getPoNo(), order.getSupplierId(), "CLOSED", userId);
     }
 }
