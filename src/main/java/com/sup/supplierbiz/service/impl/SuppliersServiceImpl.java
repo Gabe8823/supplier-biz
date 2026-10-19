@@ -27,7 +27,6 @@ import org.springframework.stereotype.Service;
 public class SuppliersServiceImpl extends ServiceImpl<SuppliersMapper, Suppliers>
         implements SuppliersService {
 
-
     @Override
     public PageDTO<SuppliersVO> pageSuppliers(PageQuery query, String supplierName) {
         Page<Suppliers> pagePO = lambdaQuery()
