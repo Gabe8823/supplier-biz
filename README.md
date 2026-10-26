@@ -178,13 +178,6 @@ src/main/java/com/sup/supplierbiz
 └── util/              # JWT 等工具类
 ```
 
-## 安全与隐私
-
-- 仓库不包含简历、证件照、个人联系方式等个人信息；`.gitignore` 已屏蔽 `resume/`、`个人简历*`、`*.pdf`、`*.docx`、`photo*.jpg` 等文件
-- 仓库内配置文件不含任何密码或密钥；数据库密码、JWT 密钥、RabbitMQ 密码从环境变量或本地 `application-local.yaml` 读取
-- 本地的真实配置建议放入 `application-local.yaml`（已被忽略），不要提交 `.env` 或密钥文件
-- 提交前建议自查：`git status` 与 `git diff --cached`，确认没有个人材料或凭据进入暂存区
-
 ## 开发流程与提交规范
 
 - 功能开发在 `feature/*` 分支进行，验收通过后合入主干
