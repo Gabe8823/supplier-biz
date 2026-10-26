@@ -31,3 +31,19 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### 个人材料与敏感文件（禁止入库） ###
+# 简历、证件照、个人资料
+resume/
+个人简历*
+简历*
+photo*.jpg
+*.pdf
+*.docx
+
+# 本地环境与密钥
+.env
+.env.*
+application-local.yaml
+application-local.yml
+application-local.properties
